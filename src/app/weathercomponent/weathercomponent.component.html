@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-center align-items-center ">
+  <form (ngSubmit)="Searchweather($event)" class="mb-0">
+    <div class="form-row">
+      <div class="col-md-12 mb-5 d-flex align-items-center">
+        <input type="text" class="form-control mr-3" [(ngModel)]="ville" name="ville" required placeholder="Saisie une ville">
+        <button type="submit" class="btn btn-secondary mx-2">Chercher</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Weather -->
+<div class="container mt-3">
+  <div class="d-flex flex-row justify-content-center align-items-center">
+      <div class="weather__card">
+          <div class="d-flex flex-row justify-content-center align-items-center">
+              <div class="p-3">
+                  <h2>{{ data.current.temp_c }}°C</h2>
+              </div>
+              <div class="p-3">
+                  <img src= {{data.current.condition.icon}}>
+              </div>
+              <div class="p-3">
+                  <h5 style="font-style: normal;">{{ data.location.localtime | date:'dd MMMM yyyy'}}</h5> <h6 style="font-style: normal;">{{ data.location.localtime |  date:'HH:mm'}}</h6>
+                  <h3>{{ data.location.name }}, {{ data.location.country}} </h3>
+                  <span class="weather__description">{{ data.current.condition.text }}</span>
+              </div>
+          </div>
+          <div class="weather__status d-flex flex-row justify-content-center align-items-center mt-3">
+              <div class="p-4 d-flex justify-content-center align-items-center">
+                  <img src="https://svgur.com/i/oHw.svg">
+                  <span>{{ data.current.humidity }}%</span>
+              </div>
+              <div class="p-4 d-flex justify-content-center align-items-center">
+                  <img src="../../assets/images/hot.png">
+                  <span style="color: brown;">{{data.forecast.forecastday[0].day.maxtemp_c}}</span>&deg;/{{data.forecast.forecastday[0].day.mintemp_c}}&deg;C
+              </div> <!-- *ngIf="data.forecast?.forecastday[0]?.day?.maxtemp_c > 10" -->
+              <div class="p-4 d-flex justify-content-center align-items-center">
+                  <img src="https://svgur.com/i/oKS.svg">
+                  <span>{{ data.current.vis_km }} km/h</span>
+              </div>
+              <div class="p-4 d-flex justify-content-center align-items-center">
+                <img src="../../assets/images/lever.png">
+                <span>{{ data.forecast.forecastday[0].astro.sunrise }}</span>
+            </div>
+            <div class="p-4 d-flex justify-content-center align-items-center">
+              <img src="../../assets/images/coucher.png">
+              <span>{{ data.forecast.forecastday[0].astro.sunset }}</span>
+          </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Weather Forecast -->
+
+<div class="weather__forecast d-flex flex-row justify-content-center align-items-center mt-1">
+  <ng-container *ngFor="let day of data.forecast.forecastday; let first = first;">
+    <div *ngIf="!first" class="p-4 d-flex flex-column justify-content-center align-items-center">
+      <span>{{ day.date | date:'dd MMMM yyyy' }}</span>
+      <img src="{{ day.day.condition.icon }}"  class="weather-icon">
+      <span><img src="../../assets/images/hot.png">{{ day.day.avgtemp_c }} &deg;C</span>
+    </div>
+  </ng-container>
+</div>
+
+
+
+
+
+
